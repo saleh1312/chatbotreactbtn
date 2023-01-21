@@ -1,25 +1,44 @@
 import React,{useEffect,useContext,useRef} from 'react'
 import { useNavigate } from 'react-router'
-import { userContext } from '../context';
+import { userContext ,editModeContext} from '../context';
+import axios from 'axios';
 function Login() {
     const navigate = useNavigate();
+    const [editMode,seteditMode]=useContext(editModeContext);
     const [user,setuser]=useContext(userContext);
+
     const nameref = useRef(null);
     const emailref = useRef(null);
 
     useEffect(()=>{
         const user_data = JSON.parse(localStorage.getItem('user-data'));
+        console.log(user_data)
+        console.log(editMode)
         
         if(user_data!==null){
-            setuser(user_data)
-            navigate("/chat")
+            if(editMode===true){
+
+            }else{
+                seteditMode(true)
+                setuser(user_data)
+                navigate("/chat")
+            }
+            
         }
     },[])
-    const login_click=()=>{
+    const login_click=async ()=>{
        
-        var usercopy=Object.assign({},user)
+        var usercopy={
+            projectid:"639ba58c30d557ff89300e6a",
+            msgs:[]
+        }
+
         usercopy.name=nameref.current.value
         usercopy.email=emailref.current.value
+        var data = await axios.post("http://127.0.0.1:3030/generateId")
+        usercopy.id=data.data.id
+
+        
         setuser(usercopy)
         localStorage.setItem('user-data', JSON.stringify(usercopy));
         navigate("/chat")
@@ -32,7 +51,7 @@ function Login() {
             </div>
             <div className='mt-2 d-flex flex-column align-items-center w-100'>
                 <span>Enter your Name</span>
-                <input type="text" className='w-75' ref={nameref}/>
+                <input type="text" className='w-75' ref={nameref} />
             </div>
             <div className='mt-2 d-flex flex-column align-items-center w-100'>
                 <span>Enter your Email</span>

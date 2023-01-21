@@ -1,5 +1,5 @@
-import { useState,useContext, useEffect } from "react"
-import { userContext } from "../context"
+import { useState,useContext, useEffect, useRef } from "react"
+import { userContext,editModeContext } from "../context"
 import React from 'react'
 import {
   Sidebar,
@@ -9,71 +9,60 @@ import {
   SubMenu
 } from 'react-pro-sidebar';
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import {ButtonsMsg,TextMsg} from './shapes.js'
 
 function Chat() {
   const [user,setuser]=useContext(userContext);
+  const [editMode,seteditMode]=useContext(editModeContext);
   const { collapseSidebar } = useProSidebar();
+  const navigate = useNavigate();
+  const msgref=useRef(null)
   useEffect(()=>{
-    console.log(user)
+    // console.log(user)
   },[])
-  const [data,setdata]=useState({
-    projectid:"",
-    msgs:[{
-      value:"Hello "+user.name+" you can select service you want to react with by clicking on the option you want",
-      type:"",
-      me:false
-    },{
-      value:"test messagesssssssssssadssssssssssssssdsssssssssssssssssssssssssssssssssssssssssssssssssssss",
-      type:"",
-      me:false
-    },{
-      value:"test messagesssssssssssadssssssssssssssdsssssssssssssssssssssssssssssssssssssssssssssssssssss",
-      type:"",
-      me:true
-    },{
-      value:"test messagesssssssssssadssssssssssssssdsssssssssssssssssssssssssssssssssssssssssssssssssssss",
-      type:"",
-      me:false
-    }]
-  })
+
+  const send_message=async (from_text_box=true,message_to_sent="",message_to_show="")=>{
+    const resp=await axios.post("http://127.0.0.1:3030/message_from_website",{
+      "sid":user.projectid,
+      "message":from_text_box?msgref.current.value:message_to_sent,
+      "userid":user.id
+    })
+    resp.data.me=false
+
+    var user_copy=Object.assign({},user);
+    if(from_text_box===true){
+      user_copy.msgs=[...user_copy.msgs,{messaging_type:"text",me:true,content:msgref.current.value},resp.data]
+    }else{
+      user_copy.msgs=[...user_copy.msgs,{messaging_type:"text",me:true,content:message_to_show},resp.data]
+    }
+    
+    setuser(user_copy);
+    
+  }
+
   const show_messages=()=>{
     return(
-      data.msgs.map((ele,i)=>{
-
-        if(ele.me===true){
-          return(
-            <div className="w-100 d-flex flex-row-reverse mt-2 pr-2" key={i}>
-              <div className="bg-warning p-2" style={{borderRadius:"25px",maxWidth:"80%"}}>
-                <span style={{wordWrap: "break-word"}}>{ele.value}</span>
-
-              </div>
-            </div>
-          )
-        }else{
-          return(
-            <div className="w-100 d-flex flex-row mt-2 pl-2" key={i}>
-              <div className="p-2" style={{borderRadius:"25px",backgroundColor:"rgb(220,220,220)",maxWidth:"80%"}}>
-                <span style={{wordWrap: "break-word"}}>{ele.value}</span>
-
-              </div>
-            </div>
-          )
-
+      user.msgs.map((ele,i)=>{
+        if (ele.messaging_type==="buttons"){
+          return(<ButtonsMsg data={[ele,i,send_message]} key={i}/>)
+        }else if(ele.messaging_type==="text"){
+          return(<TextMsg data={[ele,i]} key={i}/>)
         }
-
-        
-
       })
     )
   }
+  
   return (
     
-    <div className='w-100 h-100 d-flex flex-column justify-content-center align-items-center'>
+    <div className='w-100 h-100 d-flex flex-column justify-content-center align-items-center' style={{position:"relative"}}>
       <div
         style={{
           display: 'flex',
           height: '100%',
           position: 'absolute',
+          left:"0px",
           zIndex: '10000',
         }}
       >
@@ -84,69 +73,17 @@ function Chat() {
         >
           <Menu>
             <MenuItem
-              routerLink={<Link to="/dashboard/extentions" />}
               rootStyles={{
                 color: 'white',
                 ':hover': { color: 'black' },
                 fontWeight: 'bold',
               }}
+              onClick={()=>{seteditMode(true);navigate("/login")}}
+              
             >
-              Extentions
+              login
             </MenuItem>
-            <MenuItem
-              routerLink={<Link to="/dashboard/flows" />}
-              rootStyles={{
-                color: 'white',
-                ':hover': { color: 'black' },
-                fontWeight: 'bold',
-              }}
-            >
-              Flow
-            </MenuItem>
-            <MenuItem
-              routerLink={<Link to="/dashboard/livechat" />}
-              rootStyles={{
-                color: 'white',
-                ':hover': { color: 'black' },
-                fontWeight: 'bold',
-              }}
-            >
-              Live chat
-            </MenuItem>
-            <MenuItem
-              routerLink={<Link to="/projects" />}
-              rootStyles={{
-                color: 'white',
-                ':hover': { color: 'black' },
-                fontWeight: 'bold',
-              }}
-            >
-              Back to projects
-            </MenuItem>
-            <SubMenu label="QR Code" rootStyles={{color: 'white',':hover': { color: 'black',backgroundColor:'white' },fontWeight: 'bold'}}>
-                <MenuItem
-                  routerLink={<Link to="/dashboard/readcontacts" />}
-                  rootStyles={{
-                    color: 'white',
-                    backgroundColor:'black',
-                    ':hover': { color: 'black' },
-                    fontWeight: 'bold',
-                  }}
-                >
-                  read contacts
-                </MenuItem>
-                <MenuItem
-                  routerLink={<Link to="/dashboard/webcamqrcode" />}
-                  rootStyles={{
-                    color: 'white',
-                    backgroundColor:'black',
-                    ':hover': { color: 'black' },
-                    fontWeight: 'bold',
-                  }}
-                >
-                  webcam
-                </MenuItem>
-            </SubMenu>
+         
           </Menu>
         </Sidebar>
         <div>
@@ -159,13 +96,15 @@ function Chat() {
           </button>
         </div>
       </div>
-      <div style={{width:"100%",height:"85%",overflowY:"scroll"}}>
+      <div style={{width:"100%",height:"85%",overflowY:"scroll",paddingTop:"33px"}}>
         {
           show_messages()
         }
 
       </div>
-      <div style={{width:"100%",height:"15%"}} className='bg-warning d-flex flex-column'>
+      <div style={{width:"100%",height:"15%"}} className='d-flex flex-row'>
+        <input type="text" style={{width:"70%"}} ref={msgref}></input>
+        <button className="btn btn-primary" style={{width:"30%"}} onClick={()=>{send_message()}}>Send</button>
         
 
       </div>
