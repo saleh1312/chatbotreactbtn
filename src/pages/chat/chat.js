@@ -23,11 +23,16 @@ function Chat() {
     // console.log(user)
   },[])
 
-  const send_message=async (from_text_box=true,message_to_sent="",message_to_show="")=>{
+  const send_message=async (from_text_box=true,message_to_sent="",message_to_show="",message_data={})=>{
     const resp=await axios.post("http://127.0.0.1:3030/message_from_website",{
       "sid":user.projectid,
       "message":from_text_box?msgref.current.value:message_to_sent,
-      "userid":user.id
+      "userid":user.id,
+      "user_data":{
+        "name":user.name,
+        "email":user.email
+      },
+      "message_data":message_data
     })
     resp.data.me=false
 
