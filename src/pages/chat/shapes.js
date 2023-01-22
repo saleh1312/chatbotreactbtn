@@ -26,7 +26,7 @@ export function TextMsg(props) {
     if(ele.me===true){
         return(
           <div className="w-100 d-flex flex-row-reverse mt-2 pr-2" key={i}>
-            <div className="bg-warning p-2" style={{borderRadius:"25px",maxWidth:"80%"}}>
+            <div className="bg-warning p-2 d-flex flex-row justify-content-center align-items-center" style={{borderRadius:"25px",maxWidth:"80%",minWidth:"20%"}}>
               <span style={{wordWrap: "break-word"}}>{ele.content}</span>
 
             </div>

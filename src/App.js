@@ -7,6 +7,7 @@ import { Routes, Route, json } from "react-router-dom"
 import { useNavigate } from 'react-router-dom';
 import { userContext } from './pages/context';
 import { editModeContext } from './pages/context';
+
 function App() {
   const [editMode,seteditMode]=useState(false)
   const [user,setuser]=useState({
