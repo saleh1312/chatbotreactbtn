@@ -23,11 +23,8 @@ function Chat() {
   const msgref=useRef(null)
 
   useEffect(()=>{
-    if(socket===null){
-      var socket_connected=io("http://127.0.0.1:3030")
-      setsocket(socket_connected)
-      
-    }
+    socket.emit("join_room",user.id)
+    console.log(user)
   },[])
 
   const send_message=async (from_text_box=true,message_to_sent="",message_to_show="",message_data={})=>{

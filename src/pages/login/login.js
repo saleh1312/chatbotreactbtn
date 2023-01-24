@@ -12,8 +12,6 @@ function Login() {
 
     useEffect(()=>{
         const user_data = JSON.parse(localStorage.getItem('user-data'));
-        console.log(user_data)
-        console.log(editMode)
         
         if(user_data!==null){
             if(editMode===true){

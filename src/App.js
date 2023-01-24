@@ -17,11 +17,15 @@ function App() {
   const [socket,setsocket]=useState(null)
 
   useEffect(()=>{
-    if (socket!==null){
-      console.log(socket)
-      console.log("socket_connetcted")
+    if(socket===null){
+      var socket_connected=io("http://127.0.0.1:3030/clients")
+      socket_connected.on("msg_from_server",(data)=>{
+        console.log(data)
+      })
+      setsocket(socket_connected)
+      
     }
-  },[socket])
+  },[])
 
   const [user,setuser]=useState({
     projectid:"639ba58c30d557ff89300e6a",
