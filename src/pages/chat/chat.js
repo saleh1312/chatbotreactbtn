@@ -1,5 +1,5 @@
 import { useState,useContext, useEffect, useRef } from "react"
-import { userContext,editModeContext } from "../context"
+import { userContext,editModeContext, socketContext} from "../context"
 import React from 'react'
 import {
   Sidebar,
@@ -12,15 +12,22 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import {ButtonsMsg,TextMsg} from './shapes.js'
-
+import { io } from "socket.io-client";
 function Chat() {
   const [user,setuser]=useContext(userContext);
   const [editMode,seteditMode]=useContext(editModeContext);
+  const [socket,setsocket]=useContext(socketContext);
+
   const { collapseSidebar } = useProSidebar();
   const navigate = useNavigate();
   const msgref=useRef(null)
+
   useEffect(()=>{
-    // console.log(user)
+    if(socket===null){
+      var socket_connected=io("http://127.0.0.1:3030")
+      setsocket(socket_connected)
+      
+    }
   },[])
 
   const send_message=async (from_text_box=true,message_to_sent="",message_to_show="",message_data={})=>{

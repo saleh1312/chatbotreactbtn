@@ -7,9 +7,22 @@ import { Routes, Route, json } from "react-router-dom"
 import { useNavigate } from 'react-router-dom';
 import { userContext } from './pages/context';
 import { editModeContext } from './pages/context';
+import { socketContext } from './pages/context';
+import { io } from 'socket.io-client';
+
 
 function App() {
   const [editMode,seteditMode]=useState(false)
+
+  const [socket,setsocket]=useState(null)
+
+  useEffect(()=>{
+    if (socket!==null){
+      console.log(socket)
+      console.log("socket_connetcted")
+    }
+  },[socket])
+
   const [user,setuser]=useState({
     projectid:"639ba58c30d557ff89300e6a",
     msgs:[
@@ -37,11 +50,13 @@ function App() {
     <div className="App">
       <userContext.Provider value={[user, setuser]}>
         <editModeContext.Provider value={[editMode,seteditMode]}>
-          <Routes>
-            <Route index element={ <Login /> }/>
-            <Route path="/login" element={ <Login/> }/>
-            <Route path="/chat" element={<Chat />}/>
-          </Routes>
+          <socketContext.Provider value={[socket,setsocket]}>
+            <Routes>
+              <Route index element={ <Login /> }/>
+              <Route path="/login" element={ <Login/> }/>
+              <Route path="/chat" element={<Chat />}/>
+            </Routes>
+          </socketContext.Provider>
         </editModeContext.Provider>
       </userContext.Provider>
       
