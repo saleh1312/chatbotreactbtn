@@ -1,5 +1,5 @@
 import { useState,useContext, useEffect, useRef } from "react"
-import { userContext,editModeContext, socketContext} from "../context"
+import { userContext,editModeContext, socketContext,chat_stateContext} from "../context"
 import React from 'react'
 import {
   Sidebar,
@@ -11,23 +11,33 @@ import {
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import {ButtonsMsg,TextMsg} from './shapes.js'
+import {ButtonsMsg,TextMsg,RepliedButton} from './shapes.js'
 import { io } from "socket.io-client";
 function Chat() {
   const [user,setuser]=useContext(userContext);
   const [editMode,seteditMode]=useContext(editModeContext);
   const [socket,setsocket]=useContext(socketContext);
+  const [chat_state,setchat_state]=useContext(chat_stateContext);
 
   const { collapseSidebar } = useProSidebar();
   const navigate = useNavigate();
   const msgref=useRef(null)
 
   useEffect(()=>{
-    socket.emit("join_room",user.id)
-    console.log(user)
+    const effect=()=>{
+      socket.emit("join_room",user.id)
+      const resp=axios.post("http://127.0.0.1:3030/change_customer_data",{
+        "userId":user.id,
+        "data":{"chat_state":chat_state}
+      })
+      console.log(resp)
+      //console.log(user)
+    }
+    effect();
   },[])
 
   const send_message=async (from_text_box=true,message_to_sent="",message_to_show="",message_data={})=>{
+
     const resp=await axios.post("http://127.0.0.1:3030/message_from_website",{
       "sid":user.projectid,
       "message":from_text_box?msgref.current.value:message_to_sent,
@@ -36,18 +46,19 @@ function Chat() {
         "name":user.name,
         "email":user.email
       },
-      "message_data":message_data
+      "message_data":message_data,
+      "chat_state":chat_state
     })
-    resp.data.me=false
-
+    console.log(resp.data.msgs)
     var user_copy=Object.assign({},user);
     if(from_text_box===true){
-      user_copy.msgs=[...user_copy.msgs,{messaging_type:"text",me:true,content:msgref.current.value},resp.data]
+      user_copy.msgs=[...user_copy.msgs,...resp.data.msgs]
     }else{
-      user_copy.msgs=[...user_copy.msgs,{messaging_type:"text",me:true,content:message_to_show},resp.data]
+      user_copy.msgs=[...user_copy.msgs,...resp.data.msgs]
     }
-    
+
     setuser(user_copy);
+    setchat_state(resp.data.msgs[resp.data.msgs.length-1].chat_state)
     
   }
 
@@ -57,7 +68,11 @@ function Chat() {
         if (ele.messaging_type==="buttons"){
           return(<ButtonsMsg data={[ele,i,send_message]} key={i}/>)
         }else if(ele.messaging_type==="text"){
+          
           return(<TextMsg data={[ele,i]} key={i}/>)
+        }else if(ele.messaging_type==="replied_button"){
+          
+          return(<RepliedButton data={[ele,i]} key={i}/>)
         }
       })
     )

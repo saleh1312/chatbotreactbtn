@@ -5,9 +5,7 @@ import Chat from './pages/chat/chat';
 import React,{useEffect,useState} from 'react'
 import { Routes, Route, json } from "react-router-dom"
 import { useNavigate } from 'react-router-dom';
-import { userContext } from './pages/context';
-import { editModeContext } from './pages/context';
-import { socketContext } from './pages/context';
+import { editModeContext,chat_stateContext ,userContext,socketContext} from './pages/context';
 import { io } from 'socket.io-client';
 
 
@@ -15,6 +13,8 @@ function App() {
   const [editMode,seteditMode]=useState(false)
 
   const [socket,setsocket]=useState(null)
+
+  const [chat_state,setchat_state]=useState("flow")
 
   useEffect(()=>{
     if(socket===null){
@@ -55,11 +55,17 @@ function App() {
       <userContext.Provider value={[user, setuser]}>
         <editModeContext.Provider value={[editMode,seteditMode]}>
           <socketContext.Provider value={[socket,setsocket]}>
-            <Routes>
-              <Route index element={ <Login /> }/>
-              <Route path="/login" element={ <Login/> }/>
-              <Route path="/chat" element={<Chat />}/>
-            </Routes>
+            <chat_stateContext.Provider value={[chat_state,setchat_state]}>
+
+            
+                <Routes>
+                  <Route index element={ <Login /> }/>
+                  <Route path="/login" element={ <Login/> }/>
+                  <Route path="/chat" element={<Chat />}/>
+                </Routes>
+
+
+            </chat_stateContext.Provider>
           </socketContext.Provider>
         </editModeContext.Provider>
       </userContext.Provider>

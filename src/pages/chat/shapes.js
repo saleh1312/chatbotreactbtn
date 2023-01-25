@@ -23,11 +23,11 @@ export function ButtonsMsg(props) {
 }
 export function TextMsg(props) {
     const [ele,i]=props.data
-    if(ele.me===true){
+    if(ele.sent_by_customer===true){
         return(
           <div className="w-100 d-flex flex-row-reverse mt-2 pr-2" key={i}>
             <div className="bg-warning p-2 d-flex flex-row justify-content-center align-items-center" style={{borderRadius:"25px",maxWidth:"80%",minWidth:"20%"}}>
-              <span style={{wordWrap: "break-word"}}>{ele.content}</span>
+              <span style={{wordWrap: "break-word"}}>{ele.title}</span>
 
             </div>
           </div>
@@ -36,11 +36,32 @@ export function TextMsg(props) {
         return(
           <div className="w-100 d-flex flex-row mt-2 pl-2" key={i}>
             <div className="p-2" style={{borderRadius:"25px",backgroundColor:"rgb(220,220,220)",maxWidth:"80%"}}>
-              <span style={{wordWrap: "break-word"}}>{ele.content}</span>
+              <span style={{wordWrap: "break-word"}}>{ele.title}</span>
 
             </div>
           </div>
         )
     }
 }
-  
+export function RepliedButton(props) {
+  const [ele,i]=props.data
+  if(ele.sent_by_customer===true){
+      return(
+        <div className="w-100 d-flex flex-row-reverse mt-2 pr-2" key={i}>
+          <div className="bg-warning p-2 d-flex flex-row justify-content-center align-items-center" style={{borderRadius:"25px",maxWidth:"80%",minWidth:"20%"}}>
+            <span style={{wordWrap: "break-word"}}>{ele.data.content}</span>
+
+          </div>
+        </div>
+      )
+    }else{
+      return(
+        <div className="w-100 d-flex flex-row mt-2 pl-2" key={i}>
+          <div className="p-2" style={{borderRadius:"25px",backgroundColor:"rgb(220,220,220)",maxWidth:"80%"}}>
+            <span style={{wordWrap: "break-word"}}>{ele.data.content}</span>
+
+          </div>
+        </div>
+      )
+  }
+}
