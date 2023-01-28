@@ -19,8 +19,12 @@ function App() {
   useEffect(()=>{
     if(socket===null){
       var socket_connected=io("http://127.0.0.1:3030/clients")
-      socket_connected.on("msg_from_server",(data)=>{
-        console.log(data)
+      socket_connected.on("message_from_admin",(data)=>{
+        let message = data["message"]
+        let customerid = data["customerid"]
+        console.log("message from admin ")
+        console.log(message)
+        console.log(customerid)
       })
       setsocket(socket_connected)
       

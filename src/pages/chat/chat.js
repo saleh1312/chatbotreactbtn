@@ -34,6 +34,7 @@ function Chat() {
       //console.log(user)
     }
     effect();
+    console.log(user)
   },[])
 
   const send_message=async (from_text_box=true,message_to_sent="",message_to_show="",message_data={})=>{
