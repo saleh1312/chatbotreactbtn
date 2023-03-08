@@ -1,0 +1,80 @@
+.wrapper{
+  
+  border-radius: 15px;
+  box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
+  /* opacity: 0;
+  pointer-events: none;
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); */
+}
+
+form {
+    /* padding: 20px; */
+    width: 80%;
+    padding: 0px 15px;
+    margin: 0px 0;
+    border-radius: 25px;
+    /* border: 1px solid lightgrey; */
+  }
+ form .field {
+    height: 50px;
+    width: 100%;
+    margin-top: 20px;
+  }
+ form .field:last-child {
+    margin-bottom: 15px;
+  }
+  form .field input,
+  form .field button,
+  form .textarea textarea {
+    width: 100%;
+    height: 100%;
+    padding-left: 20px;
+    border: 1px solid lightgrey;
+    outline: none;
+    border-radius: 10px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+  }
+  form .field input:focus,
+  form .textarea textarea:focus {
+    border-color: #85b3f9;
+  }
+  form .field input::placeholder,
+  form .textarea textarea::placeholder {
+    color: silver;
+    transition: all 0.3s ease;
+  }
+  form .field input:focus::placeholder,
+  form .textarea textarea:focus::placeholder {
+    color: lightgrey;
+  }
+   form .textarea {
+    height: 70px;
+    width: 100%;
+  }
+  
+  form .field button {
+    border: none;
+    outline: none;
+    cursor: pointer;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 500;
+    background: -webkit-linear-gradient(left, #0067fe, #0067fe);
+    transition: all 0.3s ease;
+  }
+  
+   form .field button:hover {
+    border: none;
+    outline: none;
+    cursor: pointer;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 500;
+    background: -webkit-linear-gradient(left, #2e83fd, #2e83fd);
+    transition: all 0.3s ease;
+  }
+   form .field button:active {
+    transform: scale(0.97);
+  }
+  
