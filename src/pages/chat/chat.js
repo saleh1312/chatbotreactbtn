@@ -28,7 +28,8 @@ function Chat() {
       socket.emit("join_room",user.id)
       const resp=axios.post("http://127.0.0.1:3030/change_customer_data",{
         "userId":user.id,
-        "data":{"chat_state":chat_state}
+        "data":{"chat_state":chat_state},
+        "projectId":user.projectid
       })
       console.log(resp)
       //console.log(user)

@@ -7,10 +7,12 @@ export function ButtonsMsg(props) {
 
     return(
         <div className="w-100 d-flex flex-row mt-2 pl-2" key={i}>
+          
             <div className="p-2 d-flex flex-column" style={{borderRadius:"25px",backgroundColor:"rgb(220,220,220)",maxWidth:"80%"}}>
+              <span className='pl-2'>{ele.data[0]?.content}</span>
                 {
-                    ele.data.map((btn,j)=>{
-                        return(<button onClick={()=>{send_message(false,ele.data[j].id,ele.data[j].content,btn)}} className='btn btn-secondary m-2' key={j} style={{minWidth:"110px"}}>{btn.content}</button>)
+                    ele.data.slice(1,ele.data.length).map((btn,j)=>{
+                        return(<button onClick={()=>{send_message(false,ele.data[j+1].id,ele.data[j+1].content,btn)}} className='btn btn-secondary m-2' key={j} style={{minWidth:"110px"}}>{btn.content}</button>)
                     })
                 }
 
