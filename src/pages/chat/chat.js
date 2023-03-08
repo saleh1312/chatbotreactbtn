@@ -14,6 +14,9 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import {ButtonsMsg,TextMsg,RepliedButton} from './shapes.js'
 import { io } from "socket.io-client";
+
+
+
 function Chat() {
   const [user,setuser]=useContext(userContext);
   const [editMode,seteditMode]=useContext(editModeContext);
@@ -23,6 +26,7 @@ function Chat() {
   const { collapseSidebar } = useProSidebar();
   const navigate = useNavigate();
   const msgref=useRef(null)
+  const refscroll=useRef(null)
 
   useEffect(()=>{
     const effect=()=>{
@@ -38,6 +42,11 @@ function Chat() {
     effect();
     console.log(user)
   },[])
+
+  useEffect(()=>{
+    if(!refscroll.current) return;
+    refscroll.current.scrollIntoView({ behavior: "smooth" });
+  },[user])
 
   const send_message=async (from_text_box=true,message_to_sent="",message_to_show="",message_data={})=>{
 
@@ -95,7 +104,9 @@ function Chat() {
         {
           show_messages()
         }
-
+        <div style={{ float:"left", clear: "both" }}
+             ref={refscroll}>
+        </div>
       </div>
       {/* <div style={{width:"100%",height:"15%"}} className='d-flex flex-row'>
         <input type="text" style={{width:"70%"}} ref={msgref}></input>
@@ -110,7 +121,7 @@ function Chat() {
       </input>
 
 
-      <button className="chatbox__send--footer send__button"  onClick={()=>{send_message()}}>Send</button>
+      <button className="chatbox__send--footer send__button" onClick={()=>{send_message()}}>Send</button>
 
 
 
