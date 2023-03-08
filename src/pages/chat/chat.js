@@ -83,45 +83,10 @@ function Chat() {
   return (
     
     <div className='w-100 h-100 d-flex flex-column justify-content-center align-items-center' style={{position:"relative"}}>
-      <div
-        style={{
-          display: 'flex',
-          height: '100%',
-          position: 'absolute',
-          left:"0px",
-          zIndex: '10000',
-        }}
-      >
-        <Sidebar
-          collapsedWidth="0px"
-          backgroundColor="rgb(0, 0, 0, 1)"
-          defaultCollapsed={true}
-        >
-          <Menu>
-            <MenuItem
-              rootStyles={{
-                color: 'white',
-                ':hover': { color: 'black' },
-                fontWeight: 'bold',
-              }}
-              onClick={()=>{seteditMode(true);navigate("/login")}}
-              
-            >
-              login
-            </MenuItem>
-         
-          </Menu>
-        </Sidebar>
-        <div>
-          <button
-            className="btn "
-            style={{ backgroundColor: 'black', color: 'white' }}
-            onClick={() => collapseSidebar()}
-          >
-            Services
-          </button>
-        </div>
+      <div className="bg-dark" style={{width:"100%",height:"20%"}}>
+
       </div>
+      
       <div style={{width:"100%",height:"85%",overflowY:"scroll",paddingTop:"33px"}}>
         {
           show_messages()
