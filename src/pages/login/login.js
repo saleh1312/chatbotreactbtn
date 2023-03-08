@@ -69,6 +69,7 @@ function Login() {
                     type="text"
                     placeholder = "Your Name"
                     required = "true"
+                    ref={nameref}
                     ></input>
 
                 </div>
@@ -81,6 +82,7 @@ function Login() {
                     type="email"
                     placeholder = "Email Address"
                     required = "true"
+                    ref={emailref}
                     ></input>
 
                 </div>
