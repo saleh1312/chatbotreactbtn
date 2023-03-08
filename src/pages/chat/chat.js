@@ -8,6 +8,7 @@ import {
   useProSidebar,
   SubMenu
 } from 'react-pro-sidebar';
+import './chat.css';
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -83,23 +84,42 @@ function Chat() {
   return (
     
     <div className='w-100 h-100 d-flex flex-column justify-content-center align-items-center' style={{position:"relative"}}>
-      <div className="bg-dark" style={{width:"100%",height:"20%"}}>
-
-      </div>
+      {/* <div className="chat_header" style={{width:"100%",height:"20%"}}> */}
+          <div className="head-text">
+          Pi Bot
+          <p>(Online)</p>
+          </div>
+      {/* </div> */}
       
-      <div style={{width:"100%",height:"85%",overflowY:"scroll",paddingTop:"33px"}}>
+      <div className="chat_body" style={{width:"100%",height:"85%",overflowY:"scroll",paddingTop:"33px"}}>
         {
           show_messages()
         }
 
       </div>
-      <div style={{width:"100%",height:"15%"}} className='d-flex flex-row'>
+      {/* <div style={{width:"100%",height:"15%"}} className='d-flex flex-row'>
         <input type="text" style={{width:"70%"}} ref={msgref}></input>
         <button className="btn btn-primary" style={{width:"30%"}} onClick={()=>{send_message()}}>Send</button>
         
 
+      </div> */}
+      <div className="chatbox__footer">
+      <input type="text"  ref={msgref}
+      placeholder = 'Write a message...'
+      >
+      </input>
+
+
+      <button className="chatbox__send--footer send__button"  onClick={()=>{send_message()}}>Send</button>
+
+
+
       </div>
-      
+      <div className="chatbox__footer__text">
+
+        <p>Powered by </p>
+        <a href="http://electropi.ai/">Electro Pi</a>
+      </div>
     </div>
   )
 }
