@@ -77,4 +77,37 @@ form {
    form .field button:active {
     transform: scale(0.97);
   }
+
+  .chatbox__footer__text_ p {
+    font-weight: 600;
+  }
+  
+  .chatbox__footer__text_ {
+    position: sticky;
+    bottom: 0;
+    text-align: center;
+    font-size: 12px;
+    padding: 6px 0px 1px 0px;
+    border-radius: 0 0 15px 15px;
+    background: #ffffff;
+  }
+
+  .chatbox__footer__text_ p {
+    font-weight: 600;
+    margin: 0px;
+  }
+  
+  .chatbox__footer__text_ {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+    font-size: 12px;
+    padding: 6px 0px 6px 0px;
+    border-radius: 0 0 15px 15px;
+    background: #ffffff;
+  }
   

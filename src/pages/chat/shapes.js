@@ -60,7 +60,7 @@ export function RepliedButton(props) {
   if(ele.sent_by_customer===true){
       return(
         <div className="w-100 d-flex flex-row-reverse mt-2 pr-2" key={i} >
-          <div className="p-2 d-flex flex-row justify-content-center align-items-center" style={{marginBottom:"15px",backgroundColor:"#e0e0e0", maxWidth:"80%",minWidth:"20%" , borderTopLeftRadius:"20px" , borderTopRightRadius:"20px" ,  borderBottomLeftRadius:"20px" }}>
+          <div className="p-2 d-flex flex-row justify-content-center align-items-center" style={{marginBottom:"15px",backgroundColor:"#0067fe", color :"white" , paddingRight:"20px !important" , paddingLeft:"20px !important" ,  maxWidth:"80%",minWidth:"20%" , borderTopLeftRadius:"20px" , borderTopRightRadius:"20px" ,  borderBottomLeftRadius:"20px" }}>
             <span style={{wordWrap: "break-word"}}>{ele.data.content}</span>
 
           </div>

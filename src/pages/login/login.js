@@ -95,7 +95,7 @@ function Login() {
             </form>
 
 
-            <div className="chatbox__footer__text">
+            <div className="chatbox__footer__text_" style= {{position:"absolute !important" , backgroundColor:"red !mportant"}} >
 
             <p>Powered by </p>
             <a href="http://electropi.ai/">Electro Pi</a>
