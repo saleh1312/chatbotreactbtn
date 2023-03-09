@@ -19,7 +19,7 @@ export function ButtonsMsg(props) {
               <div className='d-flex flex-column ' >
                   {
                       ele.data.slice(1,ele.data.length).map((btn,j)=>{
-                          return(<button onClick={()=>{send_message(false,ele.data[j+1].id,ele.data[j+1].content,btn)}} className='btn btn-secondary m-2' key={j} style={{minWidth:"110px" ,backgroundColor:"transparent" , color:"#0067fe" , borderColor:"#0067fe" , borderRadius:"15px" , outline:"none" }}>{btn.content}</button>)
+                          return(<button onClick={()=>{send_message(false,ele.data[j+1].id,ele.data[j+1].content,btn)}} className='btn  m-2' key={j} style={{minWidth:"110px" ,backgroundColor:"transparent" , color:"#0067fe" , borderColor:"#0067fe" , borderRadius:"15px" , outline:"none !important" , outlineColor:"white !important"  }}>{btn.content}</button>)
                       })
                   }
               </div>
