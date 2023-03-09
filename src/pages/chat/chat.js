@@ -24,6 +24,8 @@ function Chat() {
   const { collapseSidebar } = useProSidebar();
   const navigate = useNavigate();
   const msgref=useRef(null)
+  const myRef = useRef(null)
+
 
   useEffect(()=>{
     const effect=()=>{
@@ -39,6 +41,12 @@ function Chat() {
     effect();
     console.log(user)
   },[])
+
+  useEffect(()=>{
+    myRef.current.scrollIntoView() 
+  },[user])
+
+  
 
   const send_message=async (from_text_box=true,message_to_sent="",message_to_show="",message_data={})=>{
 
@@ -97,7 +105,7 @@ function Chat() {
         {
           show_messages()
         }
-
+      <div ref={myRef}></div> 
       </div>
       {/* <div style={{width:"100%",height:"15%"}} className='d-flex flex-row'>
         <input type="text" style={{width:"70%"}} ref={msgref}></input>
