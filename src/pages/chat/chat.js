@@ -1,28 +1,20 @@
-import { useState,useContext, useEffect, useRef } from "react"
-import { userContext,editModeContext, socketContext,chat_stateContext} from "../context"
+import {useContext, useEffect, useRef } from "react"
+import { userContext, socketContext,chat_stateContext} from "../context"
 import React from 'react'
-import {
-  Sidebar,
-  Menu,
-  MenuItem,
-  useProSidebar,
-  SubMenu
-} from 'react-pro-sidebar';
 import './chat.css';
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import {ButtonsMsg,TextMsg,RepliedButton} from './shapes.js'
-import { io } from "socket.io-client";
 import {IoSend} from 'react-icons/io5'
+import { SERVER_LINK } from "../../vars";
+
+
 function Chat() {
   const [user,setuser]=useContext(userContext);
-  const [editMode,seteditMode]=useContext(editModeContext);
+
   const [socket,setsocket]=useContext(socketContext);
   const [chat_state,setchat_state]=useContext(chat_stateContext);
 
-  const { collapseSidebar } = useProSidebar();
-  const navigate = useNavigate();
+
   const msgref=useRef(null)
   const myRef = useRef(null)
 
@@ -30,7 +22,7 @@ function Chat() {
   useEffect(()=>{
     const effect=()=>{
       socket.emit("join_room",user.id)
-      const resp=axios.post("http://127.0.0.1:3030/change_customer_data",{
+      const resp=axios.post(`${SERVER_LINK}/change_customer_data`,{
         "userId":user.id,
         "data":{"chat_state":chat_state},
         "projectId":user.projectid
@@ -50,7 +42,7 @@ function Chat() {
 
   const send_message=async (from_text_box=true,message_to_sent="",message_to_show="",message_data={})=>{
 
-    const resp=await axios.post("http://127.0.0.1:3030/message_from_website",{
+    const resp=await axios.post(`${SERVER_LINK}/message_from_website`,{
       "sid":user.projectid,
       "message":from_text_box?msgref.current.value:message_to_sent,
       "userid":user.id,

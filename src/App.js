@@ -3,11 +3,11 @@ import './App.css';
 import Login from './pages/login/login';
 import Chat from './pages/chat/chat';
 import React,{useEffect,useState} from 'react'
-import { Routes, Route, json } from "react-router-dom"
-import { useNavigate } from 'react-router-dom';
+import { Routes, Route } from "react-router-dom"
+
 import { editModeContext,chat_stateContext ,userContext,socketContext} from './pages/context';
 import { io } from 'socket.io-client';
-
+import { SERVER_LINK } from './vars';
 
 function App() {
   const [editMode,seteditMode]=useState(false)
@@ -18,7 +18,7 @@ function App() {
 
   useEffect(()=>{
     if(socket===null){
-      var socket_connected=io("http://127.0.0.1:3030/clients")
+      var socket_connected=io(`${SERVER_LINK}/clients`)
       socket_connected.on("message_from_admin",(data)=>{
         let message = data["message"]
         let customerid = data["customerid"]
@@ -32,7 +32,7 @@ function App() {
   },[])
 
   const [user,setuser]=useState({
-    projectid:"640922f835b9b938fefa03b1",
+    projectid:"639ba58c30d557ff89300e6a",
     msgs:[
       // {
       //   value:"Hello "+user.name+" you can select service you want to react with by clicking on the option you want",
@@ -63,9 +63,9 @@ function App() {
 
             
                 <Routes>
-                  <Route index element={ <Login /> }/>
-                  <Route path="/login" element={ <Login/> }/>
-                  <Route path="/chat" element={<Chat />}/>
+                  {/* <Route index element={ <Login /> }/> */}
+                  <Route path="/:projectId" element={ <Login/> }/>
+                  <Route exact path="/chat" element={<Chat />}/>
                 </Routes>
 
 

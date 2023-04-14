@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router'
 import { userContext ,editModeContext} from '../context';
 import axios from 'axios';
 import './login.css'
+import { useParams } from 'react-router';
+import { SERVER_LINK } from '../../vars';
+
 function Login() {
     const navigate = useNavigate();
     const [editMode,seteditMode]=useContext(editModeContext);
@@ -10,14 +13,19 @@ function Login() {
 
     const nameref = useRef(null);
     const emailref = useRef(null);
+    let { projectId } = useParams();
 
     useEffect(()=>{
-        const user_data = JSON.parse(localStorage.getItem('user-data'));
+        var user_data = JSON.parse(localStorage.getItem('user-data'));
+
         
         if(user_data!==null){
+            user_data.projectid=projectId
             if(editMode===true){
 
             }else{
+                console.log("0000000000000000000000000000000")
+                console.log(user_data)
                 seteditMode(true)
                 setuser(user_data)
                 navigate("/chat")
@@ -27,14 +35,22 @@ function Login() {
     },[])
     const login_click=async ()=>{
        
-        var usercopy={
-            projectid:user.projectid,
-            msgs:[]
+        if(projectId === undefined){
+            var usercopy={
+                projectid:user.projectid,
+                msgs:[]
+            }
+        }else{
+            var usercopy={
+                projectid:projectId,
+                msgs:[]
+            }
         }
+        
 
         usercopy.name=nameref.current.value
         usercopy.email=emailref.current.value
-        var data = await axios.post("http://127.0.0.1:3030/generateId")
+        var data = await axios.post(`${SERVER_LINK}/generateId`)
         usercopy.id=data.data.id
 
         
