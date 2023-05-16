@@ -1,1 +1,1 @@
-export const SERVER_LINK="http://electropi.ai:3030"
+export const SERVER_LINK="http://localhost:3030"
